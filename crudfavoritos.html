@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Favoritos - Música</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .musica-lista, .favoritos-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .card {
+            background: #1f1f1f;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #4caf50;
+            color: white;
+        }
+        button.remove {
+            background: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎵 Sistema de Favoritos</h1>
+
+    <h2>Touch Here (Músicas do nosso site)</h2>
+    <div class="musica-lista" id="musicas">
+        <!-- Músicas carregadas aqui -->
+    </div>
+
+    <h2>⭐ Favoritos</h2>
+    <div class="favoritos-lista" id="favoritos">
+        <!-- Favoritos aqui -->
+    </div>
+
+<script>
+    const musicas = [
+        { id: 1, nome: "Paranoid - Black Sabbath", imagem: "https://m.media-amazon.com/images/I/515EKEN5JZL._UF1000,1000_QL80_.jpg" },
+        { id: 2, nome: "Aces high - Iron Maiden", imagem: "https://m.media-amazon.com/images/I/71FKghJvHxL._UF1000,1000_QL80_.jpg" },
+        { id: 3, nome: "Luchini AKA This is it - Camp Lo", imagem: "https://m.media-amazon.com/images/I/91Usw0k0WML._UF1000,1000_QL80_.jpg" },
+        { id: 4, nome: "Gangsta`s Paradise - Coolio", imagem: "https://m.media-amazon.com/images/I/513NdxZCXwL._UF1000,1000_QL80_.jpg" },
+    ];
+
+    let favoritos = [];
+
+    function renderMusicas() {
+        const div = document.getElementById("musicas");
+        div.innerHTML = "";
+
+        musicas.forEach(m => {
+            const card = document.createElement("div");
+            card.className = "card"; card.style.gap = "10px";
+            card.innerHTML = `
+                <img src="${m.imagem}" style="border-radius:8px; margin-right:10px;" width="60" height="60"> <span>${m.nome}</span>
+                <button onclick="addFavorito(${m.id})">Favoritar ⭐</button>
+            `;
+            div.appendChild(card);
+        });
+    }
+
+    function renderFavoritos() {
+        const div = document.getElementById("favoritos");
+        div.innerHTML = "";
+
+        favoritos.forEach(f => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+                <span>${f.nome}</span>
+                <button class="remove" onclick="removeFavorito(${f.id})">Remover ❌</button>
+            `;
+            div.appendChild(card);
+        });
+    }
+
+    function addFavorito(id) {
+        const musica = musicas.find(m => m.id === id);
+        if (!favoritos.find(f => f.id === id)) {
+            favoritos.push(musica);
+            renderFavoritos();
+        }
+    }
+
+    function removeFavorito(id) {
+        favoritos = favoritos.filter(f => f.id !== id);
+        renderFavoritos();
+    }
+
+    // Inicializa
+    renderMusicas();
+    renderFavoritos();
+</script>
+
+</body>
+</html>
